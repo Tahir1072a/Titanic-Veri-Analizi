@@ -1,54 +1,85 @@
-# Kaggle Titanic Veri Seti ile Kapsamlı Veri Analizi
+# Kapsamlı Titanic Veri Analizi ve Makine Öğrenmesi Modeli
 
-Bu proje, ünlü Titanic gemi kazası veri setini kullanarak yolcuların hayatta kalma oranlarını etkileyen faktörleri **NumPy** ve **Pandas** kütüphaneleriyle analiz etmektedir. Projenin amacı, veri biliminin temel adımlarını (veri yükleme, temizleme, özellik mühendisliği ve analiz) uygulayarak anlamlı içgörüler çıkarmak ve bu kütüphanelerdeki yetkinliği göstermektir.
+Bu proje, Kaggle'ın ünlü "Titanic: Machine Learning from Disaster" veri setini kullanarak, yolcuların hayatta kalma oranlarını etkileyen faktörleri analiz etmeyi ve bu faktörlere dayalı bir makine öğrenmesi modeli geliştirmeyi amaçlamaktadır. Proje, veri temizleme, özellik mühendisliği ve model optimizasyonu gibi temel veri bilimi adımlarını kapsamaktadır.
 
 ---
 
 ## 📚 Veri Seti
 
-Bu projede kullanılan veri seti, Kaggle platformundaki **"Titanic - Machine Learning from Disaster"** yarışmasından temin edilmiştir. Veri setine şu adresten ulaşabilirsiniz:
-[https://www.kaggle.com/c/titanic](https://www.kaggle.com/c/titanic)
+Bu projede kullanılan veri seti, Kaggle platformundaki **"Titanic - Machine Learning from Disaster"** yarışmasından temin edilmiştir.
+* **Veri Seti Linki:** [https://www.kaggle.com/c/titanic](https://www.kaggle.com/c/titanic)
 
 ---
 
-## 🛠️ Kullanılan Kütüphaneler
+## 🛠️ Kullanılan Teknolojiler
 
-* **Pandas:** Veri yükleme, temizleme, manipülasyon ve analiz için temel kütüphane.
-* **NumPy:** Sayısal hesaplamalar ve özellikle 'Özellik Mühendisliği' aşamasında bazı koşullu işlemler için kullanılmıştır.
-
----
-
-## 🚀 Proje Adımları
-
-Proje, aşağıdaki temel veri bilimi adımlarını takip etmiştir:
-
-1.  **Veri Yükleme ve İlk Keşif:**
-    * `train.csv` dosyası Pandas DataFrame olarak yüklendi.
-    * `head()`, `tail()` ve `info()` metodlarıyla veriye ilk bakış atıldı ve eksik veriler tespit edildi (`Age`, `Cabin`, `Embarked`).
-
-2.  **Veri Temizleme:**
-    * `Age` sütunundaki eksik değerler, sütunun **ortalama** değeri ile dolduruldu (`fillna()`).
-    * `Cabin` sütunundaki çok sayıda eksik değer, 'U' (Unknown - Bilinmeyen) olarak etiketlendi (`fillna()`).
-    * `Embarked` sütunundaki (2 adet) eksik değer, en sık görünen biniş limanı (**mod**) ile dolduruldu (`fillna()`, `mode()`).
-
-3.  **Özellik Mühendisliği:**
-    * `SibSp` ve `Parch` sütunları kullanılarak `FamilySize` (Aile Büyüklüğü) adında yeni bir özellik oluşturuldu.
-    * `FamilySize` kullanılarak `IsAlone` (Yalnız mı?) adında (1/0) yeni bir özellik oluşturuldu (`np.where`).
-    * `Sex` sütunu sayısal değerlere (0: Erkek, 1: Kadın) çevrildi (`np.where`).
-    * `Embarked` sütunu sayısal değerlere (S:0, C:1, Q:2) çevrildi (`map`).
-
-4.  **Analiz ve İçgörü Çıkarma:**
-    * `groupby()` metodu kullanılarak 'Sex', 'Pclass' ve 'Embarked' gibi kategorilere göre hayatta kalma oranları (`Survived` ortalaması) hesaplandı.
-    * `corr()` metodu ile sayısal özellikler arasındaki (özellikle 'Survived' ile olan) korelasyonlar incelendi.
+Projenin geliştirilmesinde aşağıdaki kütüphanelerden yararlanılmıştır:
+* **Pandas:** Veri manipülasyonu, temizleme ve analizi.
+* **NumPy:** Sayısal hesaplamalar ve veri dönüşümleri.
+* **Matplotlib:** Veri görselleştirme ve model sonuçlarının analizi.
+* **Scikit-learn:** Özellik ön işleme, modelleme ve hiperparametre optimizasyonu.
 
 ---
 
-## 📊 Öne Çıkan Bulgular
+## 🚀 Proje İş Akışı
 
-* **Cinsiyet Etkisi:** Kadınların (`Sex=1`) hayatta kalma oranı (%74.2), erkeklerin (`Sex=0`) hayatta kalma oranından (%18.9) anlamlı derecede yüksektir. Bu, "önce kadınlar ve çocuklar" yaklaşımını desteklemektedir.
-* **Sınıf Etkisi:** 1. sınıf (`Pclass=1`) yolcuların hayatta kalma oranı (%63.0) en yüksek iken, 3. sınıf (`Pclass=3`) yolcularınki (%24.2) en düşüktür. Sosyo-ekonomik durumun hayatta kalmada önemli bir faktör olduğu görülmektedir.
-* **Korelasyonlar:** Hayatta kalma (`Survived`) ile en güçlü pozitif korelasyon 'Sex' (%54.3) ile, en güçlü negatif korelasyon ise 'Pclass' (%-33.8) iledir. Bu, kadın olmanın ve üst sınıfta bulunmanın hayatta kalma şansını artırdığını göstermektedir.
+Proje, standart bir veri bilimi yaşam döngüsü takip edilerek tamamlanmıştır:
+
+1.  **Veri Keşfi ve Temizleme (EDA & Cleaning):**
+    * Veri seti yüklendi ve `info()`, `head()` gibi fonksiyonlarla ilk yapısal analiz gerçekleştirildi.
+    * Eksik değerler tespit edildi. `Age` sütunundaki boşluklar ortalama yaş değeri ile, `Embarked` sütunundaki boşluklar ise en sık tekrar eden değer (mod) ile dolduruldu.
+    * `Cabin` sütunundaki eksiklik, yolcunun bir kabini olup olmadığını belirten `Has_Cabin` adında yeni bir ikili özelliğe dönüştürüldü. Bu, veri kaybını önleyen daha anlamlı bir yaklaşımdır.
+
+2.  **Özellik Mühendisliği (Feature Engineering):**
+    * Modelleme için anlamlı olmayan `PassengerId`, `Name`, `Ticket` ve `Cabin` (dönüştürüldükten sonra) gibi sütunlar veri setinden çıkarıldı.
+    * Kategorik olan `Sex` özelliği, makine öğrenmesi modelinin işleyebilmesi için sayısal forma dönüştürüldü.
+
+3.  **Veri Ön İşleme (Preprocessing):**
+    * `scikit-learn` kütüphanesinin `ColumnTransformer` ve `Pipeline` yapıları kullanılarak modern bir ön işleme hattı kuruldu.
+    * **Sayısal Sütunlar:** `StandardScaler` ile ölçeklendirildi.
+    * **Kategorik Sütunlar:** `OneHotEncoder` ile sayısal vektörlere dönüştürüldü.
+
+4.  **Model Geliştirme ve Optimizasyon:**
+    * Problem için **KNN**, **Decision Tree** ve **Random Forest** gibi farklı sınıflandırma modelleri denendi.
+    * En iyi hiperparametreleri güvenilir bir şekilde bulmak ve veri sızıntısını önlemek amacıyla **`GridSearchCV`** ile **Çapraz Doğrulama (Cross-Validation)** yöntemi kullanılmıştır.
+    * Yapılan optimizasyon sonucunda Random Forest modeli için en iyi parametreler `{'max_depth': 6, 'n_estimators': 22}` olarak belirlenmiştir. Bu parametrelerle elde edilen ortalama çapraz doğrulama doğruluğu **%83.28** olmuştur.
 
 ---
 
-Bu proje, NumPy ve Pandas kullanarak temel bir veri analizi projesinin nasıl yapılabileceğini göstermektedir. Kodlar ve adımlar `sample.ipynb` dosyasında detaylı olarak incelenebilir.
+## 📊 Model Sonuçları
+
+`GridSearchCV` ile bulunan en iyi model, daha önce hiç görmediği test verisi üzerinde değerlendirilmiştir. Elde edilen nihai sonuçlar şöyledir:
+
+* **Test Seti Doğruluğu (Accuracy):** **%90**
+
+### Sınıflandırma Raporu (Classification Report)
+
+|               | Precision | Recall | F1-Score | Support |
+| :------------ | :-------: | :----: | :------: | :-----: |
+| **0 (Kalamadı)** |   0.89    |  0.96  |   0.93   |   266   |
+| **1 (Kaldı)** |   0.92    |  0.80  |   0.86   |   152   |
+| **Macro Avg** |   0.91    |  0.88  |   0.89   |   418   |
+| **Weighted Avg**|   0.90    |  0.90  |   0.90   |   418   |
+
+Bu sonuçlar, modelin özellikle hayatta kalamayanları tespit etmede çok başarılı olduğunu (%96 Recall), hayatta kalanları tahmin etme konusunda ise yüksek bir isabet oranına (%92 Precision) sahip olduğunu göstermektedir.
+
+---
+
+## ⚙️ Kurulum ve Çalıştırma
+
+Proje dosyalarını yerel makinenizde çalıştırmak için aşağıdaki adımları izleyebilirsiniz:
+
+1.  **Depoyu Klonlayın:**
+    ```bash
+    git clone [https://github.com/](https://github.com/)<kullanici-adiniz>/<repo-adiniz>.git
+    ```
+2.  **Klasöre Gidin:**
+    ```bash
+    cd <repo-adiniz>
+    ```
+3.  **Gerekli Kütüphaneleri Yükleyin:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+4.  **Jupyter Notebook'u Çalıştırın:**
+    Ana analiz ve modelleme adımları `src/titanic-survive-analysis.ipynb` dosyasında bulunmaktadır.
