@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/models" />
+      <excludeFolder url="file://$MODULE_DIR$/src/File Operations/.ipynb_checkpoints" />
     </content>
     <orderEntry type="jdk" jdkName="C:\Users\tahir\anaconda3" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

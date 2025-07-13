@@ -2,6 +2,15 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDE/OS specific
+.idea/
+.vscode/
+*.DS_Store
 
 # C extensions
 *.so
